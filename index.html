@@ -2,7 +2,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Hello world!</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <title>Hello map!</title>
+  
     <style type="text/css">
     #container{
         /*地图(容器)显示大小*/
@@ -10,27 +13,53 @@
         height:100vh;
     }
     </style>
-    <!--引入Javascript API GL，参数说明参见下文-->
-    <script src="https://map.qq.com/api/gljs?v=1.exp&key=JJQBZ-SZCLU-RMLVK-BMOYI-5SEGO-KOBKY"></script>
-    <script>
-        //地图初始化函数，本例取名为init，开发者可根据实际情况定义
-        function initMap() {
-            //定义地图中心点坐标
-            var center = new TMap.LatLng(39.984120, 116.307484)
-            //定义map变量，调用 TMap.Map() 构造函数创建地图
-            var map = new TMap.Map(document.getElementById('container'), {
-                center: center,//设置地图中心点坐标
-                zoom: 30,   //设置地图缩放级别
-                pitch: 43.5,  //设置俯仰角
-                rotation: 45,    //设置地图旋转角度
-                viewMode:'2D'
-            });
-        }
+    
+    <script type="text/javascript">
+      window._AMapSecurityConfig = {
+          securityJsCode:'767cb13dd08292f1daeaa4c4c7def647',
+      }
     </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=aaa4c7d4873757deb1f5ceff26e8bbb9"></script> 
 </head>
-<!-- 页面载入后，调用init函数 -->
-<body onload="initMap()">
-    <!-- 定义地图显示容器 -->
+<body>
     <div id="container"></div>
+
+    <script>
+      var map = new AMap.Map('container', {
+        viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D',
+        zoom:12 //初始化地图层级
+          // center: [125.297428, 43.90923] //初始化地图中心点
+          // layers: [ // 卫星图层
+          //   satellite,
+          //   roadNet
+          // ]
+      });
+
+
+      var marker = new AMap.Marker({
+        position: new AMap.LngLat(125.297428, 43.90923),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        title: '长春'
+      });
+      map.add(marker);
+
+      map.plugin('AMap.Geolocation', () => {
+        console.log('====here')
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+            convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+            showButton: true,        //显示定位按钮，默认：true
+            buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+            showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+            panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+            zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition((status,result) =>{ console.log('=============结束', status); console.log('=============结束result', result); }); 
+      });
+    </script>
 </body>
 </html>
