@@ -38,8 +38,8 @@
     <script>
       var map = new AMap.Map('container', {
         viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D',
-        zoom:12 //初始化地图层级
-          // center: [125.297428, 43.90923] //初始化地图中心点
+        zoom:14, //初始化地图层级
+        center: [125.207428, 43.84423] //初始化地图中心点
           // layers: [ // 卫星图层
           //   satellite,
           //   roadNet
@@ -48,7 +48,7 @@
 
 
       var marker = new AMap.Marker({
-        position: new AMap.LngLat(125.297428, 43.90923),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        position: new AMap.LngLat(125.207428, 43.84423),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
         title: '长春'
       });
       map.add(marker);
