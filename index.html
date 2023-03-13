@@ -12,6 +12,16 @@
         width:100vw;
         height:100vh;
     }
+    #mark {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      width: 50vw;
+      height: 40vw;
+      background-color: rgba(255, 25, 255, .6);
+      font-size: 10px;
+      overflow: overlay;
+    }
     </style>
     
     <script type="text/javascript">
@@ -23,6 +33,7 @@
 </head>
 <body>
     <div id="container"></div>
+    <div id="mark"></div>
 
     <script>
       var map = new AMap.Map('container', {
@@ -46,7 +57,7 @@
         console.log('====here')
         geolocation = new AMap.Geolocation({
             enableHighAccuracy: true,//是否使用高精度定位，默认:true
-            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            timeout: 15000,          //超过10秒后停止定位，默认：无穷大
             maximumAge: 0,           //定位结果缓存0毫秒，默认：0
             convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
             showButton: true,        //显示定位按钮，默认：true
@@ -58,7 +69,15 @@
             zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
         });
         map.addControl(geolocation);
-        geolocation.getCurrentPosition((status,result) =>{ console.log('=============结束', status); console.log('=============结束result', result); }); 
+        setInterval(() => {
+          document.querySelector("#mark").innerText = '开始循环定位'
+          // center.getLng().toString() + ', ' + center.getLat().toString();
+          geolocation.getCurrentPosition((status,result) =>{ 
+            console.log('=============结束', status); 
+            console.log('=============结束result', result); 
+            document.querySelector("#mark").innerText = status.toString() + '：' + JSON.stringify(result)
+          }); 
+        }, 5000)
       });
     </script>
 </body>
