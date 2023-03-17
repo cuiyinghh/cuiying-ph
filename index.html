@@ -69,15 +69,16 @@
             zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
         });
         map.addControl(geolocation);
+       geolocation.getCurrentPosition((status,result) =>{ 
+            document.querySelector("#mark").innerText = status.toString() + '：' + JSON.stringify(result)
+       }); 
         setInterval(() => {
           document.querySelector("#mark").innerText = '开始循环定位'
           // center.getLng().toString() + ', ' + center.getLat().toString();
           geolocation.getCurrentPosition((status,result) =>{ 
-            console.log('=============结束', status); 
-            console.log('=============结束result', result); 
             document.querySelector("#mark").innerText = status.toString() + '：' + JSON.stringify(result)
           }); 
-        }, 5000)
+        }, 1000)
       });
     </script>
 </body>
